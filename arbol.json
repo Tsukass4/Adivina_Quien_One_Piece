@@ -1,0 +1,225 @@
+{
+  "pregunta": "¿Tiene fruta del diablo?",
+  "si": {
+    "pregunta": "¿Es hermano de Luffy?",
+    "si": {
+      "pregunta": "¿Su arma principal es un tubo de hierro?",
+      "si": {
+        "personaje": "sabo"
+      },
+      "no": {
+        "personaje": "ace"
+      }
+    },
+    "no": {
+      "pregunta": "¿Es capitan de alguna tripulacion?",
+      "si": {
+        "pregunta": "¿Se peleo contra shanks y perdio?",
+        "si": {
+          "pregunta": "¿Es fanatico de luffy?",
+          "si": {
+            "personaje": "bartolomeo"
+          },
+          "no": {
+            "personaje": "kid "
+          }
+        },
+        "no": {
+          "pregunta": "¿Tiene una isla con una montaña en forma de calavera?",
+          "si": {
+            "personaje": "barba negra"
+          },
+          "no": {
+            "pregunta": "¿Es hija de kuma?",
+            "si": {
+              "personaje": "bonney"
+            },
+            "no": {
+              "pregunta": "¿Tiene el poder de la gomu gomu no mi?",
+              "si": {
+                "personaje": "Luffy"
+              },
+              "no": {
+                "pregunta": "¿Goberno sobre Wano?",
+                "si": {
+                  "personaje": "Kaido "
+                },
+                "no": {
+                  "pregunta": "¿Formo parte de la tripulacion de Rocks?",
+                  "si": {
+                    "personaje": "Barba Blanca"
+                  },
+                  "no": {
+                    "pregunta": "¿Formo parte de la tripulacion de roger?",
+                    "si": {
+                      "personaje": "Buggy"
+                    },
+                    "no": {
+                      "personaje": "law"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "no": {
+        "pregunta": "¿Pertenecio a los shichibukai?",
+        "si": {
+          "pregunta": "¿Esta enamorada de luffy?",
+          "si": {
+            "personaje": "Boa Hancock"
+          },
+          "no": {
+            "pregunta": "¿Goberno como tirano sobre dressrosa?",
+            "si": {
+              "personaje": "Doflamingo"
+            },
+            "no": {
+              "pregunta": "¿Queria poseer un arma ancestral?",
+              "si": {
+                "personaje": "Crocodile"
+              },
+              "no": {
+                "personaje": "kuma "
+              }
+            }
+          }
+        },
+        "no": {
+          "pregunta": "¿Le gusta el rock and roll?",
+          "si": {
+            "personaje": "brook"
+          },
+          "no": {
+            "pregunta": "¿Su recompensa es de 1000 berries?",
+            "si": {
+              "personaje": "chopper"
+            },
+            "no": {
+              "pregunta": "¿Es arqueologa?",
+              "si": {
+                "personaje": "robin "
+              },
+              "no": {
+                "pregunta": "¿Posee los poderes de una fruta zoan mytica?",
+                "si": {
+                  "pregunta": "¿Es la mano derecha derecha de un yonko?",
+                  "si": {
+                    "personaje": "King"
+                  },
+                  "no": {
+                    "personaje": "Marco"
+                  }
+                },
+                "no": {
+                  "personaje": "Luffy"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "no": {
+    "pregunta": "¿Pertenece a la marina?",
+    "si": {
+      "pregunta": "¿Es alumno de Garp?",
+      "si": {
+        "personaje": "koby"
+      },
+      "no": {
+        "personaje": "garp"
+      }
+    },
+    "no": {
+      "pregunta": "¿Es parte de la tripulacion de luffy?",
+      "si": {
+        "pregunta": "¿Su arma principal es una resortera?",
+        "si": {
+          "personaje": "Usopp"
+        },
+        "no": {
+          "pregunta": "¿Es un kyojin?",
+          "si": {
+            "personaje": "jinbe"
+          },
+          "no": {
+            "pregunta": "¿Su sueño es conocer el all blue?",
+            "si": {
+              "personaje": "sanji"
+            },
+            "no": {
+              "pregunta": "¿Es un cyborg?",
+              "si": {
+                "personaje": "franky"
+              },
+              "no": {
+                "pregunta": "¿Su principal arma son 3 espadas?",
+                "si": {
+                  "personaje": "zoro"
+                },
+                "no": {
+                  "personaje": "nami"
+                }
+              }
+            }
+          }
+        }
+      },
+      "no": {
+        "pregunta": "¿Pertenecio a los shichibukai?",
+        "si": {
+          "personaje": "mihawk"
+        },
+        "no": {
+          "pregunta": "¿Se murio por caerse de las escaleras?",
+          "si": {
+            "personaje": "Kuina"
+          },
+          "no": {
+            "pregunta": "¿Comenzo una nueva era?",
+            "si": {
+              "personaje": "Roger"
+            },
+            "no": {
+              "pregunta": "¿Es parte de la tripulacion de Shanks?",
+              "si": {
+                "personaje": "yasopp"
+              },
+              "no": {
+                "pregunta": "¿Es la princesa de Dressrosa?",
+                "si": {
+                  "personaje": "Rebecca"
+                },
+                "no": {
+                  "pregunta": "¿Lo confundieron con sanji?",
+                  "si": {
+                    "personaje": "Duval"
+                  },
+                  "no": {
+                    "pregunta": "¿Es un arma ancestral?",
+                    "si": {
+                      "personaje": "Shirahoshi"
+                    },
+                    "no": {
+                      "pregunta": "¿Es de la raza mink?",
+                      "si": {
+                        "personaje": "Carrot"
+                      },
+                      "no": {
+                        "personaje": "Zoro"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Adivina Quién - One Piece</title>
+
+<style>
+body {
+    font-family: Arial;
+    text-align: center;
+    color: white;
+    padding: 20px;
+
+    background-image: url('img/fondo_pirata.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+}
+
+h1 {
+    position: absolute;
+    top: -230px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-shadow: 2px 2px 5px black;
+}
+
+.top-ui {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+/* botón fullscreen izquierda */
+#btnFull {
+    position: absolute;
+    left: 0px;
+    bottom: 10px;
+    pointer-events: auto;
+}
+
+/* contador derecha */
+#progreso {
+    position: absolute;
+    right: 5px;
+    bottom: 10px;
+    pointer-events: auto;
+}
+
+#btnFull {
+    background: linear-gradient(45deg, #ffcc00, #ff7b00);
+    color: black;
+    padding: 8px 15px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#progreso {
+    background: rgba(0,0,0,0.5);
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+
+.card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 180px;
+}
+
+/* 🔥 BOTONES PRO */
+button {
+    margin: 10px;
+    padding: 12px 25px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255,255,255,0.6);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* botón sí */
+.si {
+    background: linear-gradient(45deg, #00c853, #64dd17);
+}
+
+/* botón no */
+.no {
+    background: linear-gradient(45deg, #d50000, #ff1744);
+}
+</style>
+</head>
+
+<body>
+
+<div class="game-container">
+
+<h1>🏴‍☠️ Adivina Quién - One Piece</h1>
+
+<div class="top-ui">
+    <button id="btnFull" onclick="toggleFullScreen()">🖥️</button>
+    <div id="progreso">Inicio</div>
+</div>
+
+<div class="card">
+    <h2 id="pregunta"></h2>
+
+    <div id="botones">
+        <button class="si" onclick="responder(true)">Sí</button>
+        <button class="no" onclick="responder(false)">No</button>
+    </div>
+
+    <div id="resultado"></div>
+</div>
+
+</div>
+
+<audio id="bgMusic" src="audio/fondo.mp3" loop></audio>
+<audio id="winMusic" src="audio/win.mp3"></audio>
+
+<script>
+
+/* CONFIG */
+const MODO_DESARROLLO = false;
+
+/* ÁRBOL */
+function arbolInicial(){
+    return {
+        pregunta: "¿Tiene fruta del diablo?",
+        si: {
+            pregunta: "¿Es capitán?",
+            si: {
+                pregunta: "¿Es Luffy?",
+                si: { personaje: "Luffy" },
+                no: { personaje: "Law" }
+            },
+            no: {
+                pregunta: "¿Es de la tripulación de Luffy?",
+                si: { personaje: "Chopper" },
+                no: { personaje: "Doflamingo" }
+            }
+        },
+        no: {
+            pregunta: "¿Usa espada?",
+            si: {
+                pregunta: "¿Es Zoro?",
+                si: { personaje: "Zoro" },
+                no: { personaje: "Mihawk" }
+            },
+            no: {
+                pregunta: "¿Es de la marina?",
+                si: { personaje: "Garp" },
+                no: { personaje: "Shanks" }
+            }
+        }
+    };
+}
+
+/* STORAGE */
+let arbol;
+let nodoActual;
+
+fetch("/arbol")
+.then(res => res.json())
+.then(data => {
+    arbol = data;
+    nodoActual = arbol;
+    mostrarNodo();
+});
+
+function guardarArbol(){
+    fetch("/arbol", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(arbol)
+    });
+}
+
+/* AUDIO */
+let musicaIniciada = false;
+
+window.addEventListener("DOMContentLoaded", () => {
+    let bg = document.getElementById("bgMusic");
+    let win = document.getElementById("winMusic");
+
+    bg.volume = 0.3;
+    win.volume = 0.8;
+});
+
+function iniciarMusica(){
+    if(!musicaIniciada){
+        let bg = document.getElementById("bgMusic");
+        bg.play();
+        musicaIniciada = true;
+    }
+}
+
+/* FULLSCREEN */
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+/* JUEGO */
+let contador = 0;
+
+function mostrarNodo(){
+    const preguntaDiv = document.getElementById("pregunta");
+    const botonesDiv = document.getElementById("botones");
+    const resultadoDiv = document.getElementById("resultado");
+
+    resultadoDiv.innerHTML = "";
+
+    if(nodoActual.personaje){
+        botonesDiv.style.display = "none";
+
+        let nombre = normalizarNombre(nodoActual.personaje);
+
+        preguntaDiv.innerHTML = `
+            <p>¿Es ${nodoActual.personaje}?</p>
+            <img src="img/personajes/${nombre}.png" 
+                 style="width:150px; border-radius:10px; margin-top:10px;">
+        `;
+
+        resultadoDiv.innerHTML = `
+            <button class="si" onclick="confirmar(true)">Sí</button>
+            <button class="no" onclick="confirmar(false)">No</button>
+        `;
+
+    } else {
+        botonesDiv.style.display = "block";
+
+        preguntaDiv.innerText = nodoActual.pregunta;
+        document.getElementById("progreso").innerText = `Pregunta ${++contador}`;
+    }
+}
+
+function responder(r){
+    iniciarMusica();
+    nodoActual = r ? nodoActual.si : nodoActual.no;
+    mostrarNodo();
+}
+
+/* VALIDACIÓN */
+function confirmar(correcto){
+    if(correcto){
+
+        let bg = document.getElementById("bgMusic");
+        let win = document.getElementById("winMusic");
+
+        bg.pause();
+        win.currentTime = 0;
+        win.play();
+
+        let nombre = normalizarNombre(nodoActual.personaje);
+
+// 🔥 limpiar la pregunta
+document.getElementById("pregunta").innerHTML = "";
+
+document.getElementById("resultado").innerHTML = `
+    <h2>😎 ¡Lo sabía! Es ${nodoActual.personaje}</h2>
+    <img src="img/personajes/${nombre}.png"
+         onerror="this.src='img/personajes/default.png'"
+         style="width:180px; margin-top:10px; border-radius:10px;">
+    <br>
+    <button onclick="reiniciar()">🔄 Jugar de nuevo</button>
+`;
+    } else {
+        aprender();
+    }
+}
+
+function normalizarNombre(nombre){
+    return nombre
+        .toLowerCase()
+        .trim()
+        .normalize("NFD")                 // separa acentos
+        .replace(/[\u0300-\u036f]/g, "")  // elimina acentos
+        .replace(/\s+/g, "")              // elimina espacios
+        .replace(/[^a-z0-9]/g, "");       // solo letras y números
+}
+
+/* APRENDER */
+function aprender(){
+    let correcto = prompt("¿Qué personaje era?");
+    if(!correcto) return;
+
+    let pregunta = prompt("Dame una pregunta para diferenciarlo:");
+    if(!pregunta) return;
+
+    let viejo = nodoActual.personaje;
+
+    nodoActual.pregunta = pregunta;
+    nodoActual.si = { personaje: correcto };
+    nodoActual.no = { personaje: viejo };
+
+    delete nodoActual.personaje;
+
+    guardarArbol();
+    reiniciar();
+}
+
+/* REINICIAR */
+function reiniciar(){
+    let bg = document.getElementById("bgMusic");
+    let win = document.getElementById("winMusic");
+
+    win.pause();
+    win.currentTime = 0;
+
+    if(musicaIniciada){
+        bg.play();
+    }
+
+    // 🔥 RESET REAL
+    nodoActual = arbol;
+    contador = 0;
+
+    document.getElementById("botones").style.display = "block";
+    document.getElementById("resultado").innerHTML = "";
+
+    mostrarNodo();
+}
+
+/* START */
+mostrarNodo();
+
+</script>
+
+</body>
+</html>

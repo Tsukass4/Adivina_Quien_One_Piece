@@ -1,0 +1,25 @@
+{
+  "name": "adivina_quien_one_piece",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tsukass4/Adivina_Quien_One_Piece.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Tsukass4/Adivina_Quien_One_Piece/issues"
+  },
+  "homepage": "https://github.com/Tsukass4/Adivina_Quien_One_Piece#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
