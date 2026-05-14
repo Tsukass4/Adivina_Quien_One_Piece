@@ -210,7 +210,13 @@
                         "personaje": "Carrot"
                       },
                       "no": {
-                        "personaje": "Zoro"
+                        "pregunta": "¿Es la doctora mas vieja del mundo?",
+                        "si": {
+                          "personaje": "Kureha"
+                        },
+                        "no": {
+                          "personaje": "Zoro"
+                        }
                       }
                     }
                   }
